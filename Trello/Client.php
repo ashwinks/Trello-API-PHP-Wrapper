@@ -12,19 +12,6 @@
 	    private $_raw_response;
 	    private $_curl_handle;
 	    
-	    const MODEL_BOARDS = 'boards';
-	    const MODEL_ACTIONS = 'actions';
-	    const MODEL_CARDS = 'cards';
-	    const MODEL_CHECKLISTS = 'checklists';
-	    const MODEL_LISTS = 'lists';
-	    const MODEL_MEMBERS = 'members';
-	    const MODEL_NOTIFICATIONS = 'notifications';
-	    const MODEL_ORGANIZATIONS = 'organizations';
-	    const MODEL_SEARCH = 'search';
-	    const MODEL_TOKEN = 'tokens';
-	    const MODEL_TYPE = 'types';
-	    const MODEL_WEBHOOKS = 'webhooks';
-	    
 	    public function __construct($api_key, $secret = null, $access_token = null){
 	        
 	        if (empty($api_key)){
@@ -218,9 +205,6 @@
 	        $this->_raw_response = curl_exec($ch);
 	        $this->_debug_info = curl_getinfo($ch);
 
-	        \Zend_Registry::get('logger')->debug(print_r($this->_raw_response, true));
-	        \Zend_Registry::get('logger')->debug(print_r($this->_debug_info, true));
-	        
 	        if ($this->_raw_response === false){
 	            throw new \RuntimeException('Request Error: ' . curl_error($ch));
 	        }
