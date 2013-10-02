@@ -31,6 +31,13 @@ Get a board
 $board = $client->getBoard($board_id);
 ```
 
+Another way to get a board (or any object)
+```php
+$board = new \Trello\Model\Board($client);
+$board->setId($board_id);
+$board = $board->get();
+```
+
 Get all cards for a board
 ```php
 $cards = $board->getCards();
