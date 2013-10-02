@@ -17,6 +17,11 @@
 	        
 	    }
 	    
+	    /**
+	     * Save an object
+	     * 
+	     * @return \Trello\Model\Object
+	     */
 	    public function save(){
 	        
 	        if ($this->getId()){
@@ -32,6 +37,7 @@
 	    }
 	    
 	    /**
+	     * Get an item by id ($this->id)
 	     * 
 	     * @throws \InvalidArgumentException
 	     * @return \Trello\Model\Object

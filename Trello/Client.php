@@ -12,6 +12,25 @@
 	    private $_raw_response;
 	    private $_curl_handle;
 	    
+	    const MODEL_BOARDS = 'boards';
+	    const MODEL_ACTIONS = 'actions';
+	    const MODEL_CARDS = 'cards';
+	    const MODEL_CHECKLISTS = 'checklists';
+	    const MODEL_LISTS = 'lists';
+	    const MODEL_MEMBERS = 'members';
+	    const MODEL_NOTIFICATIONS = 'notifications';
+	    const MODEL_ORGANIZATIONS = 'organizations';
+	    const MODEL_SEARCH = 'search';
+	    const MODEL_TOKEN = 'tokens';
+	    const MODEL_TYPE = 'types';
+	    const MODEL_WEBHOOKS = 'webhooks';
+	    
+	    /**
+	     * @param string $api_key
+	     * @param string $secret
+	     * @param string $access_token
+	     * @throws \InvalidArgumentException
+	     */
 	    public function __construct($api_key, $secret = null, $access_token = null){
 	        
 	        if (empty($api_key)){
@@ -30,6 +49,18 @@
 	        
 	    }
 	    
+	    /**
+	     * Get's a URL to redirect the user to for them to login and authroize your app
+	     * 
+	     * @param string $application_name
+	     * @param string $return_url
+	     * @param array $scope
+	     * @param string $expiration
+	     * @param string $callback_method
+	     * @throws \InvalidArgumentException
+	     * 
+	     * @return string
+	     */
 	    public function getAuthorizationUrl($application_name, $return_url, array $scope = array('read'), $expiration = "30days", $callback_method = 'fragment'){
 	        
 	        $valid_expirations = array('1hour', '1day', '30days', 'never');
@@ -56,6 +87,13 @@
 	        
 	    }
 	    
+	    /**
+	     * After a user has authenticated and approved your app, they're presented with an access token. Set it here
+	     * 
+	     * @param string $token
+	     * 
+	     * @return \Trello\Client
+	     */
 	    public function setAccessToken($token){
 	        
 	        $this->_access_token = trim($token);
@@ -64,12 +102,24 @@
 	        
 	    }
 	    
+	    /**
+	     * Get the APIs base url
+	     * 
+	     * @return string
+	     */
 	    public function getApiBaseUrl(){
 	        
 	        return $this->_api_url;
 	        
 	    }
 	    
+	    /**
+	     * Set the APIs base url
+	     * 
+	     * @param string $url
+	     * 
+	     * @return \Trello\Client
+	     */
 	    public function setApiBaseUrl($url){
 	        
 	        $this->_api_url = rtrim($url, ' /');
@@ -78,6 +128,13 @@
 	        
 	    }
 	    
+	    /**
+	     * Get a board
+	     * 
+	     * @param string $id
+	     * 
+	     * @return \Trello\Model\Object
+	     */
 	    public function getBoard($id){
 	        
 	        $obj = new \Trello\Model\Board($this);
@@ -87,6 +144,13 @@
 	        
 	    }
 	    
+	    /**
+	     * Get a card
+	     * 
+	     * @param string $id
+	     * 
+	     * @return \Trello\Model\Object
+	     */
 	    public function getCard($id){
 	        
 	        $obj = new \Trello\Model\Card($this);
@@ -96,6 +160,13 @@
 	        
 	    }
 	    
+	    /**
+	     * Get an action
+	     * 
+	     * @param string $id
+	     * 
+	     * @return \Trello\Model\Object
+	     */
 	    public function getAction($id){
 	        
 	        $obj = new \Trello\Model\Action($this);
@@ -105,18 +176,33 @@
 	        
 	    }
 
+	    /**
+	     * Get the access token
+	     * 
+	     * @return string
+	     */
 	    public function getAccessToken(){
 	        
 	        return $this->_access_token;
 	        
 	    }
 	    
+	    /**
+	     * Get the API secret
+	     * 
+	     * @return string
+	     */
 	    public function getApiSecret(){
 	        
 	        return $this->_api_secret;
 	        
 	    }
 
+	    /**
+	     * Get the API eky
+	     * 
+	     * @return string
+	     */
 	    public function getApiKey(){
 	        
 	        return $this->_api_key;
@@ -124,9 +210,12 @@
 	    }
 	    
 	    /**
+	     * Make a GET request
 	     * 
-	     * @param unknown_type $path
-	     * @return Ambigous <multitype:, mixed>
+	     * @param string $path
+	     * @param array $payload
+	     * 
+	     * @return array
 	     */
 	    public function get($path, array $payload = array()){
 	        
@@ -134,18 +223,45 @@
 	        
 	    }
 	    
+	    /**
+	     * Make a POST request
+	     * 
+	     * @param string $path
+	     * @param array $payload
+	     * @param array $headers
+	     * 
+	     * @return array
+	     */
 	    public function post($path, array $payload = array(), array $headers = array()){
 	        
 	        return $this->_makeRequest($path, $payload, 'POST', $headers);
 	        
 	    }
 	    
+	    /**
+	     * Make a PUT request
+	     *
+	     * @param string $path
+	     * @param array $payload
+	     * @param array $headers
+	     * 
+	     * @return array
+	     */
 	    public function put($path, array $payload = array(), array $headers = array()){
 	        
 	        return $this->_makeRequest($path, $payload, 'PUT', $headers);
 	        
 	    }
 	    
+	    /**
+	     * Make a DELETE request
+	     *
+	     * @param string $path
+	     * @param array $payload
+	     * @param array $headers
+	     * 
+	     * @return array
+	     */
 	    public function delete($path){
 	        
 	        return $this->_makeRequest($path, array(), 'DELETE');
@@ -161,6 +277,7 @@
 	     * @param array $headers
 	     * @param array $curl_options
 	     * @throws \RuntimeException
+	     * 
 	     * @return array
 	     */
 	    protected function _makeRequest($url, array $payload = array(), $method = 'GET', array $headers = array(), array $curl_options = array()){
@@ -204,7 +321,7 @@
 	        curl_setopt_array($ch, $options);
 	        $this->_raw_response = curl_exec($ch);
 	        $this->_debug_info = curl_getinfo($ch);
-
+ 
 	        if ($this->_raw_response === false){
 	            throw new \RuntimeException('Request Error: ' . curl_error($ch));
 	        }
@@ -222,12 +339,22 @@
 	        
 	    }
 	    
+	    /**
+	     * Get the raw unparsed response returned from the CURL request
+	     * 
+	     * @return string
+	     */
 	    public function getRawResponse(){
 	        
 	        return $this->_raw_response;
 	        
 	    }
 
+	    /**
+	     * Singleton to get a CURL handle
+	     * 
+	     * @return resource
+	     */
 	    protected function _getCurlHandle(){
 	    
 	    	if (!$this->_curl_handle){
@@ -238,6 +365,9 @@
 	    
 	    }
 	    
+	    /**
+	     * Closes the currently open CURL handle
+	     */
 	    public function __destruct(){
 	    
 	    	if ($this->_curl_handle){
