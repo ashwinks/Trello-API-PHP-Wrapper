@@ -62,5 +62,36 @@
 	        return parent::save();
 	        
 	    }
+	    
+	    public function copy($new_name = null, $new_list_id = null, array $copy_fields = array()){
+	    
+	    	if ($this->getId()){
+	    
+	    		$tmp = new self($this->getClient());
+	    		if (!$new_name){
+	    			$tmp->name = $this->name . ' Copy';
+	    		}else{
+	    			$tmp->name = $new_name;
+	    		}
+	    		
+	    		if (!$new_list_id){
+	    		    $tmp->idList = $this->idList;
+	    		}else{
+	    		    $tmp->idList = $new_list_id;
+	    		}
+	    		
+	    		$tmp->idCardSource = $this->getId();
+	    		 
+	    		if (!empty($copy_fields)){
+	    			$tmp->keepFromSource = implode(',', $copy_fields);
+	    		}
+	    		 
+	    		return $tmp->save();
+	    		 
+	    	}
+	    
+	    	return false;
+	    
+	    }
 
 	}

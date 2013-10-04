@@ -50,7 +50,31 @@
 	        }
 	        
 	        return $tmp;
-	        
-	    } 
+
+	    }
+	    
+	    public function copy($new_name = null, array $copy_fields = array()){
+	    	
+	    	if ($this->getId()){
+	    	
+		    	$tmp = new self($this->getClient());
+		    	if (!$new_name){
+		    		$tmp->name = $this->name . ' Copy';
+		    	}else{
+		    		$tmp->name = $new_name;
+		    	}
+		    	$tmp->idBoardSource = $this->getId();
+		    	
+		    	if (!empty($copy_fields)){
+		    		$tmp->keepFromSource = implode(',', $copy_fields);
+		    	}
+		    	
+		    	return $tmp->save();
+	    		
+	    	}
+	    	
+	    	return false;
+	    	
+	    }
 	    
 	}
