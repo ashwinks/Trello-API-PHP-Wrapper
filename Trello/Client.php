@@ -31,7 +31,7 @@
 	     * @param string $access_token
 	     * @throws \InvalidArgumentException
 	     */
-	    public function __construct($api_key, $secret = null, $access_token = null){
+	    public function __construct($api_key, $access_token = null, $secret = null){
 	        
 	        if (empty($api_key)){
 	            throw new \InvalidArgumentException('Invalid API key');
@@ -44,7 +44,7 @@
 	        }
 	        
 	        if (!empty($access_token)){
-	            $this->_access_token = trim($access_token);
+	            $this->setAccessToken($access_token);
 	        }
 	        
 	    }
@@ -331,7 +331,8 @@
 	        }
 	        
 	        $response = json_decode($this->_raw_response, true);
-	        if (!$response || !is_array($response)){
+	        
+	        if ($response === null || !is_array($response)){
 	            throw new \RuntimeException('Could not decode response JSON - Response: ' . $this->_raw_response, $this->_debug_info['http_code']);
 	        }
 	        
@@ -347,6 +348,12 @@
 	    public function getRawResponse(){
 	        
 	        return $this->_raw_response;
+	        
+	    }
+	    
+	    public function getDebugInfo(){
+	        
+	        return $this->_debug_info;
 	        
 	    }
 
