@@ -133,7 +133,7 @@
 	     * 
 	     * @param string $id
 	     * 
-	     * @return \Trello\Model\Object
+	     * @return \Trello\Model\Board
 	     */
 	    public function getBoard($id){
 	        
@@ -149,7 +149,7 @@
 	     * 
 	     * @param string $id
 	     * 
-	     * @return \Trello\Model\Object
+	     * @return \Trello\Model\Card
 	     */
 	    public function getCard($id){
 	        
@@ -165,7 +165,7 @@
 	     * 
 	     * @param string $id
 	     * 
-	     * @return \Trello\Model\Object
+	     * @return \Trello\Model\Action
 	     */
 	    public function getAction($id){
 	        
