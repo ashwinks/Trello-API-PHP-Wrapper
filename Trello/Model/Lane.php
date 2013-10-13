@@ -28,4 +28,17 @@
 	        
 	    }
 	    
+	    public function getCards(array $params = array()){
+	        
+	        $data = $this->getPath('cards', $params);
+	         
+	        $tmp = array();
+	        foreach ($data as $item){
+	        	array_push($tmp, new \Trello\Model\Card($this->getClient(), $item));
+	        }
+	         
+	        return $tmp;
+	        
+	    }
+	    
 	}
