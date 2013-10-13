@@ -25,13 +25,27 @@
 	    public function save(){
 	        
 	        if ($this->getId()){
-	           	$response = $this->getClient()->put($this->getModel() . '/' . $this->getId(), $this->toArray());
+	            return $this->update();
 	        }else{
 	            $response = $this->getClient()->post($this->getModel() . '/' . $this->getId(), $this->toArray());
 	        }
 	        
 	        $child = get_class($this);
 	        
+	        return new $child($this->getClient(), $response);
+	        
+	    }
+	    
+	    public function update(){
+	        
+	        if (!$this->getId()){
+	            throw new \InvalidArgumentException('There is no ID set for this object - Please call setId before calling update');
+	        }
+	        
+	        $response = $this->getClient()->put($this->getModel() . '/' . $this->getId(), $this->toArray());
+	        
+	        $child = get_class($this);
+	         
 	        return new $child($this->getClient(), $response);
 	        
 	    }
@@ -45,7 +59,7 @@
 	    public function get(){
 	        
 	        if (!$this->getId()){
-	            throw new \InvalidArgumentException('There is ID set for this object - Please call setId before calling get');
+	            throw new \InvalidArgumentException('There is no ID set for this object - Please call setId before calling get');
 	        }
 	        
 	        $child = get_class($this);
