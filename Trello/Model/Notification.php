@@ -1,9 +1,9 @@
 <?php
 
-    namespace Trello\Model;
-    
-    class Notification extends Object {
-        
-        protected $_model = 'notifications';
-        
-    }
+namespace Trello\Model;
+
+class Notification extends Object {
+
+    protected $_model = 'notifications';
+
+}
