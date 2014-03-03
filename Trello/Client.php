@@ -316,7 +316,7 @@ class Client {
         if ($method === 'GET'){
 
             if (!empty($payload)){
-                $options[CURLOPT_URL] = $options[CURLOPT_URL] . http_build_query($payload);
+                $options[CURLOPT_URL] = $options[CURLOPT_URL] . '&' . http_build_query($payload, '&');
             }
 
         }else if (!empty($payload)){
