@@ -19,4 +19,17 @@ class Member extends Object {
 
     }
 
+    public function getOrganizations(){
+
+        $data = $this->getPath('organizations');
+
+        $tmp = array();
+        foreach ($data as $item){
+            array_push($tmp, new \Trello\Model\Organization($this->getClient(), $item));
+        }
+
+        return $tmp;
+
+    }
+
 }
