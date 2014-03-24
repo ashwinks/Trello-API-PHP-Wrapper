@@ -25,6 +25,12 @@ Set the access token
 ```php
 $client->setAccessToken($returned_token);
 ```
+Get organizations
+```php
+$member_obj = new \Trello\Model\Member($client);
+$member_obj->setId('userid');
+$orgs = $member_obj->getOrganizations();
+```
 
 Get a board
 ```php
