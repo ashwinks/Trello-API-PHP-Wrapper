@@ -6,8 +6,8 @@ class Member extends Object {
 
     protected $_model = 'members';
 
-    public function getBoards(){
-
+    public function getBoards()
+    {
         $data = $this->getPath('boards');
 
         $tmp = array();
@@ -19,8 +19,8 @@ class Member extends Object {
 
     }
 
-    public function getOrganizations(){
-
+    public function getOrganizations()
+    {
         $data = $this->getPath('organizations');
 
         $tmp = array();
@@ -30,6 +30,18 @@ class Member extends Object {
 
         return $tmp;
 
+    }
+
+    public function getCards(array $params = array())
+    {
+        $data = $this->getPath('cards', $params);
+
+        $tmp = array();
+        foreach ($data as $item){
+            array_push($tmp, new \Trello\Model\Card($this->getClient(), $item));
+        }
+
+        return $tmp;
     }
 
 }
