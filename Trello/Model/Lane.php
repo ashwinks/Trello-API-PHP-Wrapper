@@ -19,7 +19,7 @@ class Lane extends Object {
         if (empty($this->pos)){
             $this->pos = 'bottom';
         }else{
-            if ($this->pos !== 'top' && $this->pos !== 'bototm' && $this->pos <= 0){
+            if ($this->pos !== 'top' && $this->pos !== 'bottom' && $this->pos <= 0){
                 throw new \InvalidArgumentException("Invalid pos value {$this->pos}. Valid Values: A position. top, bottom, or a positive number");
             }
         }
