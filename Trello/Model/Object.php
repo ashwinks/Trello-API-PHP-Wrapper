@@ -70,6 +70,25 @@ abstract class Object implements \ArrayAccess, \Countable, \Iterator{
     }
 
     /**
+     * Delete an item by id ($this->id)
+     *
+     * @throws \InvalidArgumentException
+     * @return \Trello\Model\Object
+     */
+    public function delete(){
+
+        if (!$this->getId()){
+            throw new \InvalidArgumentException('There is no ID set for this object - Please call setId before calling get');
+        }
+
+        $child = get_class($this);
+        $response = $this->getClient()->delete($this->getModel() . '/' . $this->getId());
+
+        return true;
+
+    }
+
+    /**
      * Get relative data
      *
      * @param string $path
