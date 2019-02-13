@@ -2,7 +2,7 @@
 
 namespace Trello\Model;
 
-class Card extends Object {
+class Card extends Element {
 
     protected $_model = 'cards';
 
@@ -35,7 +35,7 @@ class Card extends Object {
         keepFromSource (optional)
         Default: all
         Valid Values: Properties of the card to copy over from the source.
-     * @see \Trello\Model\Object::save()
+     * @see \Trello\Model\Element::save()
      */
     public function save(){
 
