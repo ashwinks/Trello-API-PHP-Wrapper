@@ -2,7 +2,7 @@
 
 namespace Trello\Model;
 
-class Lane extends Object {
+class Lane extends Model {
 
     protected $_model = 'lists';
 
