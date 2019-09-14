@@ -2,7 +2,7 @@
 
 namespace Trello\Model;
 
-class Member extends Object {
+class Member extends Model {
 
     protected $_model = 'members';
 
