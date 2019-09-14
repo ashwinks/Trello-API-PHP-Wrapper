@@ -2,7 +2,7 @@
     
 namespace Trello\Model;
 
-abstract class Object implements \ArrayAccess, \Countable, \Iterator{
+abstract class Model implements \ArrayAccess, \Countable, \Iterator{
 
     protected $_client;
     protected $_model;
