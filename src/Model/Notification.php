@@ -2,7 +2,8 @@
 
 namespace Trello\Model;
 
-class Notification extends Object {
+class Notification extends BaseObject
+{
 
     protected $_model = 'notifications';
 

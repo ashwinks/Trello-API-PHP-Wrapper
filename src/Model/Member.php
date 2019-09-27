@@ -2,43 +2,54 @@
 
 namespace Trello\Model;
 
-class Member extends Object {
+class Member extends BaseObject
+{
 
     protected $_model = 'members';
 
-    public function getBoards()
+    /**
+     * @return array
+     */
+    public function getBoards(): array
     {
         $data = $this->getPath('boards');
 
         $tmp = array();
         foreach ($data as $item){
-            array_push($tmp, new \Trello\Model\Board($this->getClient(), $item));
+            $tmp[] = new Board($this->getClient(), $item);
         }
 
         return $tmp;
 
     }
 
-    public function getOrganizations()
+    /**
+     * @return array
+     */
+    public function getOrganizations(): array
     {
         $data = $this->getPath('organizations');
 
         $tmp = array();
         foreach ($data as $item){
-            array_push($tmp, new \Trello\Model\Organization($this->getClient(), $item));
+            $tmp[] = new Organization($this->getClient(), $item);
         }
 
         return $tmp;
 
     }
 
-    public function getCards(array $params = array())
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function getCards(array $params = []): array
     {
         $data = $this->getPath('cards', $params);
 
         $tmp = array();
         foreach ($data as $item){
-            array_push($tmp, new \Trello\Model\Card($this->getClient(), $item));
+            $tmp[] = new Card($this->getClient(), $item);
         }
 
         return $tmp;

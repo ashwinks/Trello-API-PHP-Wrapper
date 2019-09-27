@@ -2,7 +2,14 @@
     
 namespace Trello\Model;
 
-abstract class Object implements \ArrayAccess, \Countable, \Iterator{
+use ArrayAccess;
+use Countable;
+use InvalidArgumentException;
+use Iterator;
+use Trello\Client;
+
+abstract class BaseObject implements ArrayAccess, Countable, Iterator
+{
 
     protected $_client;
     protected $_model;
@@ -10,7 +17,8 @@ abstract class Object implements \ArrayAccess, \Countable, \Iterator{
     private $_position = 0;
     protected $_data;
 
-    public function __construct(\Trello\Client $client, array $data = array()){
+    public function __construct(Client $client, array $data = [])
+    {
 
         $this->_client = $client;
         $this->_data = $data;
@@ -20,15 +28,15 @@ abstract class Object implements \ArrayAccess, \Countable, \Iterator{
     /**
      * Save an object
      *
-     * @return \Trello\Model\Object
+     * @return BaseObject
      */
     public function save(){
 
         if ($this->getId()){
             return $this->update();
-        }else{
-            $response = $this->getClient()->post($this->getModel() . '/' . $this->getId(), $this->toArray());
         }
+
+        $response = $this->getClient()->post($this->getModel() . '/' . $this->getId(), $this->toArray());
 
         $child = get_class($this);
 
@@ -36,10 +44,13 @@ abstract class Object implements \ArrayAccess, \Countable, \Iterator{
 
     }
 
+    /**
+     * @return mixed
+     */
     public function update(){
 
         if (!$this->getId()){
-            throw new \InvalidArgumentException('There is no ID set for this object - Please call setId before calling update');
+            throw new InvalidArgumentException('There is no ID set for this object - Please call setId before calling update');
         }
 
         $response = $this->getClient()->put($this->getModel() . '/' . $this->getId(), $this->toArray());
@@ -53,13 +64,13 @@ abstract class Object implements \ArrayAccess, \Countable, \Iterator{
     /**
      * Get an item by id ($this->id)
      *
-     * @throws \InvalidArgumentException
-     * @return \Trello\Model\Object
+     * @return BaseObject
+     * @throws InvalidArgumentException
      */
     public function get(){
 
         if (!$this->getId()){
-            throw new \InvalidArgumentException('There is no ID set for this object - Please call setId before calling get');
+            throw new InvalidArgumentException('There is no ID set for this object - Please call setId before calling get');
         }
 
         $child = get_class($this);
@@ -77,12 +88,16 @@ abstract class Object implements \ArrayAccess, \Countable, \Iterator{
      *
      * @return array
      */
-    public function getPath($path, array $payload = array()){
+    public function getPath($path, array $payload = []): array
+    {
 
         return $this->getClient()->get($this->getModel() . '/' . $this->getId() . '/' . $path, $payload);
 
     }
 
+    /**
+     * @return mixed
+     */
     public function getModel(){
 
         return $this->_model;
@@ -91,7 +106,7 @@ abstract class Object implements \ArrayAccess, \Countable, \Iterator{
 
     /**
      *
-     * @return \Trello\Client
+     * @return Client
      */
     public function getClient(){
 
@@ -99,6 +114,10 @@ abstract class Object implements \ArrayAccess, \Countable, \Iterator{
 
     }
 
+    /**
+     * @param $id
+     * @return $this
+     */
     public function setId($id){
 
         $this->id = $id;
@@ -145,7 +164,7 @@ abstract class Object implements \ArrayAccess, \Countable, \Iterator{
 
     public function offsetSet($offset, $value){
 
-        if (is_null($offset)){
+        if ($offset === null) {
             $this->_data[] = $value;
         }else{
             $this->_data[$offset] = $value;
@@ -167,7 +186,7 @@ abstract class Object implements \ArrayAccess, \Countable, \Iterator{
 
     public function offsetGet($offset){
 
-        return isset($this->_data[$offset])? $this->_data[$offset] : null;
+        return $this->_data[$offset] ?? null;
 
     }
 
