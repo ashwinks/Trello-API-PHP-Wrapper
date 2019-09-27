@@ -7,6 +7,13 @@ This repo contains a fix to use this library with php7.2+
 
 [original library](https://github.com/ashwinks/Trello-API-PHP-Wrapper) 
 
+Installation
+======
+
+```bash
+$ composer require sanovskiy/trello-php7
+```
+
 Usage
 ======
 
